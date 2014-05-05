@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -17,12 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/{{ docs_version }}/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '{{ secret_key }}'
+SECRET_KEY = os.getenv('SECRET_KEY', '{{ secret_key }}')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv('DEBUG', 0))
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = bool(os.getenv('DEBUG', 0))
 
 ALLOWED_HOSTS = []
 
@@ -36,6 +38,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'south',
+    # 'storages',
+
+    # add magical apps here
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,12 +64,9 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {'default': dj_database_url.config(
+        default="postgres://{}:{}@localhost/{}".format(os.getenv('DB_USER'), os.getenv('DB_PASS'), os.getenv('DB_NAME'))
+        )}
 
 # Internationalization
 # https://docs.djangoproject.com/en/{{ docs_version }}/topics/i18n/
@@ -81,3 +86,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/{{ docs_version }}/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_PATH = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static/')
+
+STATICFILES_DIRS = (
+            STATIC_PATH,
+            )
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_S3_SECURE_URLS = False                                  # use http instead of https
+AWS_QUERYSTRING_AUTH = False                                # don't add complex authentication-related query parameters for requests
+AWS_S3_ACCESS_KEY_ID = os.getenv('AWS_S3_ACCESS_KEY_ID')    # enter your access key id
+AWS_S3_SECRET_ACCESS_KEY = os.getenv('AWS_S3_SECRET_ACCESS_KEY')    # enter your secret access key
+AWS_STORAGE_BUCKET_NAME = '{{ project_name }}'
+

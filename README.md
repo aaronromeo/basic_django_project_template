@@ -7,8 +7,7 @@ How to use this...
 
 Side note about the url shortening
 
-    curl -i http://git.io -F
-"url=https://github.com/aaronromeo/basic_django_project_template/archive/master.zip"
+    curl -i http://git.io -F "url=https://github.com/aaronromeo/basic_django_project_template/archive/master.zip"
 
     HTTP/1.1 100 Continue
     

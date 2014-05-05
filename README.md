@@ -3,8 +3,7 @@ How to use this...
 
     > mkproject {{project_name}}
     > pip install django
-    > django-admin.py startproject --template=http://git.io/vgemLQ
-    > {{project_name}}
+    > django-admin.py startproject --template=http://git.io/vgemLQ {{project_name}}
 
 Side note about the url shortening
 

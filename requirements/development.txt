@@ -1,7 +1,14 @@
 -r common.txt
 
+# Auto Env
 autoenv==1.0.0
+
+# Factory boy
 factory-boy==2.3.1
+
+# ipdb
 ipdb==0.8
+
+# rebar (form testing)
 rebar==0.1
 

@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'south',
     # 'storages',
+    # 'rest_framework',
 
     # add magical apps here
 

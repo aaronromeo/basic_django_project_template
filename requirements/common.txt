@@ -1,5 +1,5 @@
 # Django
-Django==1.6.4
+Django==1.7
 
 # South
 South==0.8.4
@@ -25,5 +25,8 @@ ipython==2.0.0
 
 # Boto (for Amazon S3)
 # boto==2.27.0
+
+# Django Rest Framework
+# djangorestframework==2.4.3
 
 wsgiref==0.1.2
